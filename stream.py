@@ -10,17 +10,20 @@ import gi
 import cv2
 import argparse
 
+cam_url = 'rtsp://admin:kotai@123@192.168.1.64:554/Streaming/Channels/101'
+
 # import required library like Gstreamer and GstreamerRtspServer
 gi.require_version('Gst', '1.0')
 gi.require_version('GstRtspServer', '1.0')
-from gi.repository import Gst, GstRtspServer, GObject
+from gi.repository import Gst, GstRtspServer, GObject, GLib
 
 # Sensor Factory class which inherits the GstRtspServer base class and add
 # properties to it.
 class SensorFactory(GstRtspServer.RTSPMediaFactory):
     def __init__(self, **properties):
         super(SensorFactory, self).__init__(**properties)
-        self.cap = cv2.VideoCapture(opt.device_id)
+        # self.cap = cv2.VideoCapture(opt.device_id)
+        self.cap = cv2.VideoCapture(cam_url)
         self.number_frames = 0
         self.fps = opt.fps
         self.duration = 1 / self.fps * Gst.SECOND  # duration of a frame in nanoseconds
@@ -91,8 +94,7 @@ except ValueError:
     pass
 
 # initializing the threads and running the stream on loop.
-GObject.threads_init()
+# GObject.threads_init()
 Gst.init(None)
 server = GstServer()
-loop = GObject.MainLoop()
-loop.run()
+GLib.MainLoop()
