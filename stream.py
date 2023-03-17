@@ -22,8 +22,8 @@ from gi.repository import Gst, GstRtspServer, GObject, GLib
 class SensorFactory(GstRtspServer.RTSPMediaFactory):
     def __init__(self, **properties):
         super(SensorFactory, self).__init__(**properties)
-        # self.cap = cv2.VideoCapture(opt.device_id)
-        self.cap = cv2.VideoCapture(cam_url)
+        self.cap = cv2.VideoCapture(opt.device_id)
+        #self.cap = cv2.VideoCapture(cam_url)
         self.number_frames = 0
         self.fps = opt.fps
         self.duration = 1 / self.fps * Gst.SECOND  # duration of a frame in nanoseconds
